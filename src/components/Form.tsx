@@ -24,7 +24,6 @@ const Form: React.FC<FormProps> = ({
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
-      console.log(e.target.value);
       setInputValue(value);
       setIsDisabled(value.length === 0);
       setError(null);
