@@ -1,9 +1,17 @@
 'use client';
 import Navbar from '@/components/Navbar';
-import React, { useEffect, useState } from 'react';
-import { points } from '@/constants';
+import React, {  useEffect, useState } from 'react';
+import { levels } from '@/constants';
 import { capitalizeFirstLetter } from '@/utils/capitalizeString';
 import Select from '@/components/Select';
+import { LevelContext } from '@/context';
+
+
+
+
+
+
+
 
 const GameLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const [userName, setUserName] = useState<string | null>(null);
@@ -12,7 +20,8 @@ const GameLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     setUserName(storedName);
   }, []);
   const [level, setLevel] = useState<string>('low');
-  const keyLevel = Object.keys(points);
+
+  const nameLevel = Object.values(levels);
   return (
     <>
       <Navbar className='text-white text-2xl'>
@@ -29,10 +38,10 @@ const GameLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
           onChange={(e) => setLevel(e.target.value)}
           showArrow={true}
         >
-          {keyLevel.map((key) => {
-            const keyCapitalized = capitalizeFirstLetter(key);
+          {nameLevel.map(( value) => {
+            const keyCapitalized = capitalizeFirstLetter(value);
             return (
-              <option key={key} value={key}>
+              <option key={value} value={value}>
                 {keyCapitalized}
               </option>
             );
@@ -43,7 +52,9 @@ const GameLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
       </Navbar>
       <div className='grid grid-rows-[20px_1fr] items-center justify-items-center min-h-screen p-8 pb-20 gap-10 sm:p-20 font-[family-name:var(--font-geist-sans)]'>
         <div></div>
-        {children}
+        <LevelContext.Provider value={{ level }}>
+          {children}
+        </LevelContext.Provider>
       </div>
     </>
   );

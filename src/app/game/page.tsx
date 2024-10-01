@@ -1,9 +1,9 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { points } from '@/constants';
+import { points, timeLevels } from '@/constants';
 import Button from '@/components/Button';
 import Image from 'next/image';
-
+import { useLevelContext } from '@/hooks/useLevelContext';
 
 const Game = () => {
   const [gameBoard, setGameBoard] = useState(Array(9).fill(null));
@@ -13,8 +13,8 @@ const Game = () => {
   const [score, setScore] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
   const [twoTodos, setTwoTodos] = useState<boolean>(false);
-  const imageTopo = <Image src="/topo.png" alt="Topo" width={96} height={96} />;
-
+  const imageTopo = <Image src='/topo.png' alt='Topo' width={96} height={96} />;
+  const { level } = useLevelContext() as { level: 'low' | 'medium' | 'high' };
 
   const generateTwoUniqueRandomNumbers = () => {
     const firstNumber = Math.floor(Math.random() * 9);
@@ -27,17 +27,22 @@ const Game = () => {
 
     return [firstNumber, secondNumber];
   };
+
   const startBoxPositionBySeconds = () => {
     intervalRef.current = setInterval(() => {
       const [firstNumber, secondNumber] = generateTwoUniqueRandomNumbers();
       const newBoard = Array(9).fill(null);
-      if (firstNumber !== null) { newBoard[firstNumber] = imageTopo; }
-      if (secondNumber !== null){newBoard[secondNumber] = imageTopo;}
-        
+      if (firstNumber !== null) {
+        newBoard[firstNumber] = imageTopo;
+      }
+      if (secondNumber !== null) {
+        newBoard[secondNumber] = imageTopo;
+      }
+
       setGameBoard(newBoard);
       setRandomNumber([firstNumber ?? -1, secondNumber ?? -1]);
       setIsDisabled(true);
-    }, 1000);
+    }, timeLevels[level as 'low' | 'medium' | 'high']);
     setIsGameStarted(true);
   };
 
@@ -60,7 +65,7 @@ const Game = () => {
   };
 
   const handleScore = () => {
-    setScore(score + 10);
+    setScore(score + points[level]);
     setIsDisabled(false);
   };
 
@@ -69,24 +74,30 @@ const Game = () => {
       stopBoxPosition();
     };
   }, []);
+  
+  useEffect(() => {
+    stopBoxPosition();
+  }, [level]);
 
   const handleNumberTopos = () => {
     setTwoTodos(!twoTodos);
     stopBoxPosition();
   };
 
-
-
   return (
-    <div>     
+    <div>
       <h1 className='text-center text-xl font-bold mb-8'>Point: {score}</h1>
       <div className='grid grid-cols-3 gap-3 justify-center'>
         {gameBoard.map((box, index) => (
           <div
             key={index}
-            className={'border-black border-2 w-24 h-24 flex items-center justify-center rounded-md shadow-md'}
+            className={
+              'border-black border-2 w-24 h-24 flex items-center justify-center rounded-md shadow-md'
+            }
             onClick={
-              randomNumber?.includes(index) && isDisabled ? handleScore : undefined
+              randomNumber?.includes(index) && isDisabled
+                ? handleScore
+                : undefined
             }
           >
             {box}
@@ -105,7 +116,11 @@ const Game = () => {
           onClick={() => setScore(0)}
           text='reset'
         />
-        <Button  className='bg-orange-600 text-white px-4 py-2 rounded-md mt-4 mr-4' text={twoTodos ? '1 Topo' : '2 Topos'} onClick={handleNumberTopos } />
+        <Button
+          className='bg-orange-600 text-white px-4 py-2 rounded-md mt-4 mr-4'
+          text={twoTodos ? '1 Topo' : '2 Topos'}
+          onClick={handleNumberTopos}
+        />
       </div>
     </div>
   );
