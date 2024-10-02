@@ -99,7 +99,7 @@ const Game = () => {
           <div
             key={index}
             className={
-              'border-black border-2 w-24 h-24 flex items-center justify-center rounded-md shadow-md'
+              'border-black border-2 w-24 h-24 flex items-center justify-center rounded-md shadow-md dark:border-white'
             }
             onClick={
               randomNumber?.includes(index) && isDisabled
