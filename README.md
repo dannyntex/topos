@@ -1,5 +1,7 @@
 # Caza Topos
+
 https://topos.vercel.app/
+
 ## Descripción
 
 Caza Topos es un juego divertido donde los jugadores deben hacer clic en los topos que aparecen en la pantalla para obtener puntos. Es una aplicación web progresiva (PWA) desarrollada con Next.js y Tailwind CSS, que permite a los usuarios disfrutar de una experiencia de juego fluida y atractiva.
@@ -28,3 +30,7 @@ Para ejecutar la aplicación localmente, sigue estos pasos:
    ```bash
    git clone https://github.com/dannyntex/topos/
    cd topos
+   yarn
+   yarn build
+   yarn start
+   ```
