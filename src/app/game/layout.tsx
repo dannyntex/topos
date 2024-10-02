@@ -5,13 +5,8 @@ import { levels } from '@/constants';
 import { capitalizeFirstLetter } from '@/utils/capitalizeString';
 import Select from '@/components/Select';
 import { LevelContext } from '@/context';
-
-
-
-
-
-
-
+// import PushNotificationManager from '../PushNotificationManager';
+// import InstallPrompt from '../InstallPrompt';
 
 const GameLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const [userName, setUserName] = useState<string | null>(null);
@@ -24,6 +19,10 @@ const GameLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const nameLevel = Object.values(levels);
   return (
     <>
+      {/* <div>
+        <PushNotificationManager />
+        <InstallPrompt />
+      </div> */}
       <Navbar className='text-white text-2xl'>
         <p className=' basis-3/5	'>
           <i className='las la-user-circle mr-2 text-3xl'></i>
@@ -50,6 +49,7 @@ const GameLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
 
    
       </Navbar>
+   
       <div className='grid grid-rows-[20px_1fr] items-center justify-items-center min-h-screen p-8 pb-20 gap-10 sm:p-20 font-[family-name:var(--font-geist-sans)]'>
         <div></div>
         <LevelContext.Provider value={{ level }}>

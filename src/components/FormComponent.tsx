@@ -10,7 +10,7 @@ export interface FormProps {
   ariaLabel?: string;
 }
 
-const Form: React.FC<FormProps> = ({
+const FormComponent: React.FC<FormProps> = ({
   href,
   placeholder = 'Ingresa un valor',
   buttonText = 'Enviar',
@@ -79,4 +79,4 @@ const Form: React.FC<FormProps> = ({
   );
 };
 
-export default Form;
+export default FormComponent;

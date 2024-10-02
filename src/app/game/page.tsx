@@ -4,6 +4,8 @@ import { points, timeLevels } from '@/constants';
 import Button from '@/components/Button';
 import Image from 'next/image';
 import { useLevelContext } from '@/hooks/useLevelContext';
+import generateRandomIndexes from '@/utils/generateRamdomIndexes';
+import isIOS from '@/utils/isIOS';
 
 const Game = () => {
   const [gameBoard, setGameBoard] = useState(Array(9).fill(null));
@@ -16,21 +18,11 @@ const Game = () => {
   const imageTopo = <Image src='/topo.png' alt='Topo' width={96} height={96} />;
   const { level } = useLevelContext() as { level: 'low' | 'medium' | 'high' };
 
-  const generateTwoUniqueRandomNumbers = () => {
-    const firstNumber = Math.floor(Math.random() * 9);
-    let secondNumber: number | null = null;
-    if (twoTodos) {
-      do {
-        secondNumber = Math.floor(Math.random() * 9);
-      } while (secondNumber === firstNumber);
-    }
 
-    return [firstNumber, secondNumber];
-  };
 
-  const startBoxPositionBySeconds = () => {
+  const startGame = () => {
     intervalRef.current = setInterval(() => {
-      const [firstNumber, secondNumber] = generateTwoUniqueRandomNumbers();
+      const [firstNumber, secondNumber] = generateRandomIndexes(twoTodos);
       const newBoard = Array(9).fill(null);
       if (firstNumber !== null) {
         newBoard[firstNumber] = imageTopo;
@@ -46,7 +38,7 @@ const Game = () => {
     setIsGameStarted(true);
   };
 
-  const stopBoxPosition = () => {
+  const stopGame = () => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
@@ -58,31 +50,46 @@ const Game = () => {
 
   const togleButton = () => {
     if (isGameStarted) {
-      stopBoxPosition();
+      stopGame();
     } else {
-      startBoxPositionBySeconds();
+      startGame();
     }
   };
 
-  const handleScore = () => {
-    setScore(score + points[level]);
+  const incrementScore = () => {
+    setScore((prevScore) => prevScore + points[level]);
     setIsDisabled(false);
+  
+    if (!isIOS() && navigator.vibrate) {
+      navigator.vibrate(200);
+    } else {
+      // Cambia el color del fondo temporalmente como efecto visual
+      document.body.style.backgroundColor = 'yellow';
+      setTimeout(() => {
+        document.body.style.backgroundColor = '';
+      }, 200);
+    }
   };
 
   useEffect(() => {
+    if (localStorage.getItem('formInput-userName') === null) {
+      window.location.href = '/';
+    }
     return () => {
-      stopBoxPosition();
+      stopGame();
     };
   }, []);
   
   useEffect(() => {
-    stopBoxPosition();
+    stopGame();
   }, [level]);
 
   const handleNumberTopos = () => {
     setTwoTodos(!twoTodos);
-    stopBoxPosition();
+    stopGame();
   };
+
+  
 
   return (
     <div>
@@ -96,7 +103,7 @@ const Game = () => {
             }
             onClick={
               randomNumber?.includes(index) && isDisabled
-                ? handleScore
+                ? incrementScore
                 : undefined
             }
           >
