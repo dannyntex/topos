@@ -218,6 +218,13 @@
   resolved "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
+"@types/node@*":
+  version "22.7.4"
+  resolved "https://registry.npmjs.org/@types/node/-/node-22.7.4.tgz#e35d6f48dca3255ce44256ddc05dee1c23353fcc"
+  integrity sha512-y+NPi1rFzDs1NdQHHToqeiX2TIS79SWEAw9GYhkkx8bD0ChpfqC+n2j5OXOCpzfojBEBt6DnEnnG9MY0zk1XLg==
+  dependencies:
+    undici-types "~6.19.2"
+
 "@types/node@^20":
   version "20.16.7"
   resolved "https://registry.npmjs.org/@types/node/-/node-20.16.7.tgz#0a245bf5805add998a22b8b5adac612ee70190bc"
@@ -244,6 +251,13 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
+
+"@types/web-push@^3.6.3":
+  version "3.6.3"
+  resolved "https://registry.npmjs.org/@types/web-push/-/web-push-3.6.3.tgz#7698cdeeabd70d1129a6e02bd58af1e985cdfa03"
+  integrity sha512-v3oT4mMJsHeJ/rraliZ+7TbZtr5bQQuxcgD7C3/1q/zkAj29c8RE0F9lVZVu3hiQe5Z9fYcBreV7TLnfKR+4mg==
+  dependencies:
+    "@types/node" "*"
 
 "@typescript-eslint/eslint-plugin@^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0":
   version "8.7.0"
